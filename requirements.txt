@@ -5,3 +5,4 @@ pydantic
 sqlalchemy
 gunicorn
 timescaledb
+requests
