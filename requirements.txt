@@ -6,3 +6,4 @@ sqlalchemy
 gunicorn
 timescaledb
 requests
+python-decouple
