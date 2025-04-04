@@ -19,5 +19,5 @@ class EventUpdateSchema(SQLModel):
 
 
 class EventListSchema(SQLModel):
-    results: List[EventSchema]
+    results: List[EventModel]
     count: int
