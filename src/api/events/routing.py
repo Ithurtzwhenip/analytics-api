@@ -2,7 +2,7 @@ from fastapi import APIRouter
 import os
 from api.db.config import DATABASE_URL
 from .models import (
-    EventSchema,
+    EventModel,
     EventListSchema,
     EventCreateSchema,
     EventUpdateSchema
@@ -27,7 +27,7 @@ def read_events() -> EventListSchema:
 # create view
 # POST /api/events/
 @router.post("/")
-def create_event(payload:EventCreateSchema) -> EventSchema:
+def create_event(payload:EventCreateSchema) -> EventModel:
     # a bunch of items in a table
     data = payload.model_dump()
     return {"id": 123,**data}
@@ -35,7 +35,7 @@ def create_event(payload:EventCreateSchema) -> EventSchema:
 
 # GET /api/events/12
 @router.get("/{event_id}")
-def get_event(event_id:int) -> EventSchema:
+def get_event(event_id:int) -> EventModel:
     # a single row
     return {"id": event_id}
 
@@ -43,7 +43,7 @@ def get_event(event_id:int) -> EventSchema:
 # Update this data
 # PUT /api/events/12
 @router.put("/{event_id}")
-def update_event(event_id:int, payload:EventUpdateSchema) -> EventSchema:
+def update_event(event_id:int, payload:EventUpdateSchema) -> EventModel:
     # a single row
     data = payload.model_dump()
     return {"id": event_id,**data}
@@ -51,6 +51,6 @@ def update_event(event_id:int, payload:EventUpdateSchema) -> EventSchema:
 
 
 # @router.delete("/{event_id}")
-# def get_event(event_id:int) -> EventSchema:
+# def get_event(event_id:int) -> EventModel:
 #     # a single row
 #     return {"id": event_id}
