@@ -1,9 +1,7 @@
 import os
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-
 from api.db.session import get_session
-
 from .models import (
     EventModel,
     EventListSchema,
@@ -76,7 +74,5 @@ def update_event(event_id: int,
     session.refresh(obj)
     return obj
 
-# @router.delete("/{event_id}")
-# def get_event(event_id:int) -> EventModel:
-#     # a single row
-#     return {"id": event_id}
+
+
