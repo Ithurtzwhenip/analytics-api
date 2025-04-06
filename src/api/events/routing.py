@@ -12,7 +12,6 @@ from .models import (
 
 router = APIRouter()
 
-
 # Get data here
 # List View
 # GET /api/events/

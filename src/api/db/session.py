@@ -1,8 +1,8 @@
-from datetime import timezone
 import sqlmodel
 from sqlmodel import SQLModel, Session
-from .config import DATABASE_URL,DB_TIMEZONE
 import timescaledb
+
+from .config import DATABASE_URL, DB_TIMEZONE
 
 if DATABASE_URL == "":
     raise NotImplementedError("DATABASE_URL needs to be set")
