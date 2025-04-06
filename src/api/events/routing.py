@@ -1,5 +1,6 @@
 import os
-from fastapi import APIRouter, Depends, HTTPException
+from typing import List
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, select
 from api.db.session import get_session
 from .models import (
@@ -7,23 +8,51 @@ from .models import (
     EventListSchema,
     EventCreateSchema,
     EventUpdateSchema,
-    get_utc_now
+    get_utc_now,
+    EventBucketSchema
 )
+from sqlalchemy import func
+from datetime import datetime, timedelta, timezone
+from timescaledb.hyperfunctions import time_bucket
 
 router = APIRouter()
+
+DEFAULT_LOOKUP_PAGES = ['/about', '/contact', '/pages', '/pricing']
+
 
 # Get data here
 # List View
 # GET /api/events/
-@router.get("/", response_model=EventListSchema)
-def read_events(session: Session = Depends(get_session)):
+@router.get("/", response_model=List[EventBucketSchema])
+def read_events(
+        duration: str = Query(default="1 day"),
+        pages: List = Query(default=None),
+        session: Session = Depends(get_session)
+):
     # a bunch of items in a table
-    query = select(EventModel).order_by(EventModel.updated_at.asc()).limit(10)
-    results = session.exec(query).all()
-    return {
-        "results": results,
-        "count": len(results)
-    }
+    bucket = time_bucket(duration, EventModel.time)
+    lookup_pages = pages if isinstance(pages, list) and len(pages) > 0 else DEFAULT_LOOKUP_PAGES
+
+    query = (
+        select(
+            bucket.label('bucket'),
+            EventModel.page.label('page'),
+            func.count().label('count')
+        )
+        .where(
+            EventModel.page.in_(lookup_pages)
+        )
+        .group_by(
+            bucket,
+            EventModel.page,
+        )
+        .order_by(
+            bucket,
+            EventModel.page,
+        )
+    )
+    results = session.exec(query).fetchall()
+    return results
 
 
 # SEND DATA HERE
@@ -72,6 +101,3 @@ def update_event(event_id: int,
     session.commit()
     session.refresh(obj)
     return obj
-
-
-
