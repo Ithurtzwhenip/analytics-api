@@ -7,7 +7,7 @@ from .config import DATABASE_URL, DB_TIMEZONE
 if DATABASE_URL == "":
     raise NotImplementedError("DATABASE_URL needs to be set")
 
-engine = timescaledb.create_engine(DATABASE_URL, timezone=DB_TIMEZONE)
+engine = timescaledb.create_engine(DATABASE_URL, timezone=DB_TIMEZONE, pool_pre_ping=True)
 
 
 def init_db():
