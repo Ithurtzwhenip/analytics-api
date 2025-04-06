@@ -1,5 +1,4 @@
 from datetime import timezone
-
 import sqlmodel
 from sqlmodel import SQLModel, Session
 from .config import DATABASE_URL,DB_TIMEZONE
