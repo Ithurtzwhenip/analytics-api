@@ -2,11 +2,11 @@ from datetime import datetime, timezone
 from typing import List, Optional
 from sqlmodel import SQLModel, Field
 import sqlmodel
-from timescaledb import TimeScaleModel
+from timescaledb import TimescaleModel
 from timescaledb.utils import get_utc_now
 
 
-class EventModel(TimeScaleModel, table=True):
+class EventModel(TimescaleModel, table=True):
     # id: Optional[int] = Field(default=None, primary_key=True)
     # id: int
     page: str = Field(index=True)
