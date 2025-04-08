@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from api.events import router as event_router
 from contextlib import asynccontextmanager
 from api.db.session import init_db
-from fastapt.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager
