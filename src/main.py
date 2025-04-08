@@ -5,10 +5,12 @@ from contextlib import asynccontextmanager
 from api.db.session import init_db
 from fastapi.middleware.cors import CORSMiddleware
 
+import os
+print("✅ Starting app with DATABASE_URL =", os.getenv("DATABASE_URL"))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    init_db()
+    # init_db()
     yield
     # clean up
 
