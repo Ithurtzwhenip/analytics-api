@@ -7,3 +7,4 @@ gunicorn
 requests
 python-decouple
 psycopg[binary]
+timescaledb
